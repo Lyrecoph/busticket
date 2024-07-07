@@ -1,0 +1,58 @@
+# Environnement Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Environnement virtuel
+venv/
+env/
+ENV/
+.venv/
+.ENV/
+
+# Fichiers de configuration de l'éditeur
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Fichiers de configuration spécifiques à l'OS
+.DS_Store
+Thumbs.db
+
+# Fichiers de logs
+*.log
+
+# Fichiers de base de données SQLite
+*.sqlite3
+
+# Clés et informations sensibles
+.env
+*.env
+secrets.json
+
+# Node.js
+node_modules/
+
+# Staticfiles et fichiers générés par Django
+/static/
+staticfiles/
+media/
+
+# Migration files
+**/migrations/*.pyc
+**/migrations/*.pyo
+**/migrations/*.pyd
+**/migrations/__pycache__/
+
+# Coverage files
+htmlcov/
+.coverage
+
+# Pytest cache
+.pytest_cache/
+
+# Test results
+*.xml
+test-results/
+*__pycache

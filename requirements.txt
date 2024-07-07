@@ -1,0 +1,8 @@
+Django<4.2
+django-rest-framework<3.14
+django_extensions
+psycopg2-binary
+django-debug-toolbar
+factory-boy
+Faker  
+Werkzeug
