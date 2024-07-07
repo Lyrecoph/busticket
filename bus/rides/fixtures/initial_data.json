@@ -1,0 +1,135 @@
+[
+    {
+        "model": "auth.user",
+        "pk": 1,
+        "fields": {
+            "username": "admin",
+            "password": "pbkdf2_sha256$260000$2MDj...",
+            "email": "admin@example.com",
+            "is_staff": true,
+            "is_superuser": true,
+            "is_active": true,
+            "date_joined": "2023-07-01T12:00:00Z"
+        }
+    },
+    {
+        "model": "rides.trip",
+        "pk": 1,
+        "fields": {
+            "origin": "Abidjan",
+            "destination": "Yamoussoukro",
+            "departure_datetime": "2023-09-01T08:00:00Z",
+            "available_seats": 15
+        }
+    },
+    {
+        "model": "rides.trip",
+        "pk": 2,
+        "fields": {
+            "origin": "Dakar",
+            "destination": "Thiès",
+            "departure_datetime": "2023-09-02T10:30:00Z",
+            "available_seats": 10
+        }
+    },
+    {
+        "model": "rides.trip",
+        "pk": 3,
+        "fields": {
+            "origin": "Cotonou",
+            "destination": "Dassa",
+            "departure_datetime": "2023-06-07T14:25:00Z",
+            "available_seats": 8
+        }
+    },
+    {
+        "model": "rides.trip",
+        "pk": 4,
+        "fields": {
+            "origin": "Cotonou",
+            "destination": "Lomé",
+            "departure_datetime": "2023-10-07T12:00:00Z",
+            "available_seats": 12
+        }
+    },
+    {
+        "model": "rides.trip",
+        "pk": 5,
+        "fields": {
+            "origin": "Accra",
+            "destination": "Cotonou",
+            "departure_datetime": "2024-01-07T09:30:00Z",
+            "available_seats": 8
+        }
+    },
+    {
+        "model": "rides.trip",
+        "pk": 6,
+        "fields": {
+            "origin": "Abidjan",
+            "destination": "Bouaké",
+            "departure_datetime": "2024-09-01T09:00:00Z",
+            "available_seats": 0
+        }
+    },
+    {
+        "model": "rides.booking",
+        "pk": 1,
+        "fields": {
+            "trip": 1,
+            "author": 1,
+            "num_seats": 2,
+            "status": "pending"
+        }
+    },
+    {
+        "model": "rides.booking",
+        "pk": 2,
+        "fields": {
+            "trip": 3,
+            "author": 1,
+            "num_seats": 3,
+            "status": "pending"
+        }
+    },
+    {
+        "model": "rides.booking",
+        "pk": 3,
+        "fields": {
+            "trip": 1,
+            "author": 1,
+            "num_seats": 2,
+            "status": "pending"
+        }
+    },
+    {
+        "model": "rides.booking",
+        "pk": 4,
+        "fields": {
+            "trip": 4,
+            "author": 1,
+            "num_seats": 3,
+            "status": "pending"
+        }
+    },
+    {
+        "model": "rides.booking",
+        "pk": 5,
+        "fields": {
+            "trip": 4,
+            "author": 1,
+            "num_seats": 2,
+            "status": "pending"
+        }
+    },
+    {
+        "model": "rides.booking",
+        "pk": 6,
+        "fields": {
+            "trip": 5,
+            "author": 1,
+            "num_seats": 4,
+            "status": "pending"
+        }
+    }
+]
