@@ -1,35 +1,31 @@
-# Test Technique Foxtech BusRapide (v0.1.0)
+# Bus Ticket Booking System
+
+This project is a bus ticket reservation system developed using Django and the Django REST Framework. It manages bus journeys and seat reservations for these journeys.
 
 ## Introduction
 
-L'objectif de ce test est de développer une application Django en mettant en œuvre les compétences suivantes :
+The aim is to develop a Django application using the following skills:
 
-- Utilisation de Django > 4 et Django Rest Framework (DRF)
-- Programmation en Python 3 en respectant les conventions de style (Google/black/...)
-- Respect des bonnes pratiques de Django et de DRF
-- Utilisation des bibliothèques appropriées le cas échéant
+- Use of Django > 4 and Django Rest Framework (DRF)
+- Programming in Python 3, respecting style conventions (Google/black/...)
+- Compliance with Django and DRF best practices
+- Use of appropriate libraries where applicable
 
-Ce test vise à évaluer votre capacité à comprendre une spécification, à interpréter la documentation, ainsi qu'à produire un code de qualité. Votre niveau d'expérience avec Django et DRF sera pris en considération.
+## Instructions
 
-Il s'agit d'un test *best-effort*, vous n'êtes pas obligé de le compléter entièrement. Lorsque vous considérez que le projet est terminé ou prêt pour une révision, veuillez nous envoyer un e-mail. Il n'y a pas de solution unique ni de réponse "correcte". Votre aptitude à trouver des solutions et à interpréter les consignes fait partie de l'exercice.
+The aim of this project is to develop a suite of web services for a bus ticket reservation platform. It involves setting up the Django models and Django Rest Framework views needed to implement the API described below.
 
-Veuillez respecter la confidentialité de ce test et **ne le partagez sous aucune circonstance**. Si vous utilisez Gitlab/GitHub pour la livraison, veillez à ce que le repository soit **privé**.
+### Background
 
-## Consignes
+The company operates a bus ticket reservation service in West Africa. They wanted to computerise their system for booking and tracking bus journeys.
 
-L'objectif de ce test est de développer une suite de services web destinés à une plateforme de réservation de tickets de bus. Vous devrez mettre en place les modèles Django et les vues Django Rest Framework nécessaires pour implémenter l'API décrite ci-dessous.
+### Modelling
 
-### Contexte
+Design Django models to represent the entities of the bus reservation system. 
 
-L'entreprise exploite un service de réservation de tickets de bus en Afrique de l'Ouest. Ils souhaitent informatiser leur système de réservation et de suivi des trajets de bus.
+### The routes
 
-### Modélisation
-
-Votre tâche consiste à concevoir des modèles Django pour représenter les entités du système de réservation de bus. Veillez à adapter la modélisation pour répondre au mieux aux exigences fonctionnelles décrites ci-dessous.
-
-### Les trajets
-
-L'entreprise propose des trajets de bus avec des horaires fixes. L'endpoint `/api/trips/` permet de lister les différents trajets disponibles. Chaque trajet a une origine, une destination, une date et une heure de départ, ainsi qu'un nombre limité de places disponibles.
+The company offers bus routes with fixed timetables. The `/api/trips/` endpoint lists the different routes available. Each route has an origin, a destination, a departure date and time, and a limited number of available seats.
 
 ```json
 [
@@ -49,13 +45,13 @@ L'entreprise propose des trajets de bus avec des horaires fixes. L'endpoint `/ap
 ]
 ```
 
-Il devrait être possible de filtrer les résultats par origine, destination et date de départ.
+It should be possible to filter results by origin, destination and departure date.
 
-### API de réservation de tickets
+### Ticket reservation API
 
-L'endpoint `/api/bookings/` permettra aux utilisateurs de soumettre des réservations de tickets. Voici la structure attendue du payload pour effectuer une réservation :
+The `/api/bookings/` endpoint will allow users to submit ticket reservations. Here is the expected structure of the payload for making a booking:
 
-### Payload de réservation
+### Booking payload
 
 ```json
 {
@@ -64,16 +60,16 @@ L'endpoint `/api/bookings/` permettra aux utilisateurs de soumettre des réserva
 }
 ```
 
-- `trip`: L'ID du trajet pour lequel le client souhaite réserver des places.
-- `num_seats`: Le nombre de places que le client souhaite réserver.
+- `trip`: The ID of the journey for which the customer wishes to reserve seats.
+- `num_seats`: The number of seats the customer wishes to reserve.
 
-## Exemple d'utilisation
+## Example of use
 
-### Exemple de réservation
+### Reservation example
 
-Supposons que l'ID du premier trajet disponible est 1, et le client souhaite réserver 2 places.
+Suppose the ID of the first available journey is 1, and the customer wants to reserve 2 seats.
 
-**Requête :**
+**Enquiry:**
 
 ```
 POST /api/bookings/
@@ -88,7 +84,7 @@ POST /api/bookings/
 }
 ```
 
-**Réponse (réussite) :**
+**Answer (pass):**
 
 ```json
 {
@@ -104,65 +100,56 @@ POST /api/bookings/
 }
 ```
 
-#### Remarques
+#### Notes
 
-- Un utilisateur, même anonyme, peut effectuer une réservation.
-- La réservation est créée avec un statut "pending" par défaut.
-- La réservation est liée au trajet choisi.
-- Si le nombre de places demandées dépasse le nombre de places disponibles dans le trajet, la réservation doit échouer avec un message d'erreur approprié.
-- Une réservation ne peut pas être annulée ou modifiée via cette API. Une réservation peut être annulée ou modifiée en passant par une API distincte si cela est requis.
+- A user, even an anonymous one, can make a reservation.
+- The reservation is created with a default status of ‘pending’.
+- The reservation is linked to the chosen route.
+- If the number of seats requested exceeds the number of seats available on the route, the reservation must fail with an appropriate error message.
+- A booking cannot be cancelled or modified via this API. A booking can be cancelled or modified via a separate API if required.
 
-### Calcul de la rentabilité
+### Calculating profitability
 
-Dans le cadre de votre application de réservation de tickets de bus, l'entreprise souhaite avoir un aperçu de la rentabilité de chaque trajet. Vous devez calculer le revenu total généré par un trajet donné en fonction du nombre de réservations confirmées.
+As part of the bus ticket reservation application, the company wants to have an overview of the profitability of each journey. This involves calculating the total revenue generated by a given journey as a function of the number of confirmed bookings.
 
-Implémentez une fonction Python qui prend en entrée l'ID d'un trajet et renvoie le revenu total généré par ce trajet. Vous pouvez supposer que la réservation d'un siège coûte un montant fixe, par exemple 1500 FCFA.
+Implementation of a Python function which takes as input the ID of a journey and returns the total revenue generated by that journey. Let's assume that reserving a seat costs a fixed amount, for example 1500 FCFA.
 
 ```python
 def calculate_revenue(trip_id):
     """
-    Calcule le revenu total généré par un trajet en fonction du nombre de réservations confirmées.
+    Calculates the total revenue generated by a trip based on the number of confirmed bookings.
 
-    :param trip_id: L'ID du trajet pour lequel calculer le revenu.
-    :return: Le revenu total généré par le trajet.
+    :param trip_id: The ID of the trip for which to calculate revenue.
+    :return: The total revenue generated by the trip.
     """
-    # Votre code ici
+    # Reste du code
 ```
 
-Assurez-vous que votre fonction est efficace et ne réalise pas de requêtes inutiles à la base de données.
+## To conclude
 
-## Pour conclure
-
-Pour que l'application soit fonctionnelle et fiable, vous devrez écrire des tests pour vérifier son bon fonctionnement. L'utilisation de "factory-boy/Faker" ou de "fixtures" est recommandée pour charger des données en base de données lors de l'exécution des tests.
+To ensure that the application is functional and reliable, tests are written to check that it is working properly. The use of ‘factory-boy/Faker’ or ‘fixtures’ is recommended for loading data into the database when running tests.
 
 # Installation
 
-Nous mettons à votre disposition un modèle de projet vide pour accélérer le développement. Voici les étapes d'installation :
+Here are the installation steps:
 
-- Créez un environnement virtuel (`python3 -m venv .venv`)
-- Activez l'environnement virtuel (`source .venv/bin/activate`)
-- Installez les dépendances (`pip install -r requirements.txt`)
-- Effectuez les migrations (`python busticket/manage.py migrate`)
-- Lancez le serveur (`python busticket/manage.py runserver`)
+- Create a virtual environment (`python3 -m venv .venv`)
+- Activate the virtual environment (`source .venv/bin/activate`)
+- Install the dependencies (`pip install -r requirements.txt`)
+- Perform migrations (`python busticket/manage.py migrate`)
+- Run the server (`python busticket/manage.py runserver`)
 
-## Travail accompli
+## Work done
 
-*Partie à compléter par le candidat : expliquez brièvement, comme dans un README, ce que vous avez réalisé et incluez toutes les instructions nécessaires pour l'exécution du test et l'évaluation du projet.*
+## Features
 
-
-# Bus Ticket Booking System
-
-Ce projet est un système de réservation de billets de bus développé avec Django et Django REST Framework. Il permet de gérer les trajets de bus et les réservations de sièges pour ces trajets.
-
-## Fonctionnalités
-
-- **Création et gestion des trajets de bus**
-- **Réservation de sièges pour les trajets de bus**
-- **Calcul des revenus pour chaque trajet**
+- Creation and management of bus journeys** **Reservation of seats for bus journeys
+- Reserving seats for bus journeys** **Calculating revenue for each journey
+- Calculation of revenue for each journey** **Creation and management of bus journeys
 
 ## Installation
 
-### Prérequis
+### Prerequisites
 
 - Python 3.10
 - PostgreSQL (psycopg2-binary)
@@ -171,27 +158,30 @@ Ce projet est un système de réservation de billets de bus développé avec Dja
 - Django Extensions
 - Django debug toolbar
 
-### Outil tiers
+### Third-party tool
 
-Afin d'identifier et de résoudre rapidement les problèmes dans l'API, utilisez django debug toolbar pour le débogage qui fournissent des informations détaillées sur la requête et la réponse en cours, ainsi que sur l'état interne de l'API. 
-Pour ça vous pouvez suivre les étapes mentionnés dans le documentation officiel `https://django-debug-toolbar.readthedocs.io/en/latest/`
+To quickly identify and resolve problems in the API, use the django debug toolbar for debugging, which provides detailed information about the current request and response, as well as the internal state of the API. 
+To do this you can follow the steps mentioned in the official documentation `https://django-debug-toolbar.readthedocs.io/en/latest/`.
 
-### Étapes d'installation
+### Installation steps
 
-1. Clonez le dépôt:
+1. Clone the repository:
 
    ```bash
-   git clone <URL-du-dépôt>
+   git clone https://github.com/Lyrecoph/busticket.git
+   ```
+2. Access the file
+
    cd bus-ticket-booking
    
-2. Installez les dépendances:
+3. Install the dependencies:
    
    pip install -r requirements.txt
    
 ### 
    
-3. Ajoutez les Applications au Projet
-	Dans `busticket/settings.py`, ajouter `rest_framework` et `rides.apps.CoursesConfig` dans `INSTALLED_APPS`:
+4. Add the Applications to the Project
+	In `busticket/settings.py`, add `rest_framework` and `rides.apps.CoursesConfig` to `INSTALLED_APPS`:
 	
 	```
 		INSTALLED_APPS = [
@@ -202,19 +192,19 @@ Pour ça vous pouvez suivre les étapes mentionnés dans le documentation offici
 	        ]
 	```
 	
-4. Créez les Modèles Django
-	Dans `rides/models.py`, définissez les modèles pour les trajets et les réservations:
+5. Create Django Templates
+	In `rides/models.py`, define the templates for journeys and bookings:
 	
-	**Modèle Trip**:
+	**Model Trip**:
 	
-	Le modèle `Trip` représente un trajet avec les champs suivants :
-		`origin`: la ville de départ, `destination`: la ville d'arrivée, `departure_datetime`: la date et l'heure du départ,
-		`available_seats`:le nombre de sièges disponibles pour le trajet
+	The `Trip` model represents a journey with the following fields:
+		`origin`: the departure city, `destination`: the arrival city, `departure_datetime`: the departure date and time,
+		available_seats`: the number of seats available for the journey.
 		
-		La méthode `book_seats` permet de réserver des sièges pour un trajet s'il y en a suffisamment disponibles, en utilisant 
-		`F()` pour gérer les problèmes de concurrence. 
+		The `book_seats` method is used to reserve seats for a journey if enough are available, using 
+		F()` to handle concurrency issues. 
 		
-		`unique_together`: permet de définir une contrainte d'unicité sur la combinaison des champs origin, destination et
+		unique_together`: is used to define a uniqueness constraint on the combination of origin, destination and
 		departure_datetime.
 		
 		```
@@ -240,11 +230,17 @@ Pour ça vous pouvez suivre les étapes mentionnés dans le documentation offici
 				return False
 		```
 	
-	***Modèle Booking***:
+	***Model Booking***:
 	
-	Le modèle `Booking` représente une réservation de sièges pour un trajet avec les champs suivants:
-	`trip`: une référence au modèle `Trip`, `author`: une référence à l'utilisateur qui a fait la réservation, `num_seats`:le nombre de 
-	sièges réservés, `status`: le statut de la réservation (`confirmed` ou `pending`)
+	The `Booking` model represents a seat reservation for a journey with the following fields:
+
+	`trip`: a reference to the `Trip` model, 
+
+	`author`: a reference to the user who made the reservation, 
+	
+	`num_seats`: the number of seats reserved, 
+
+	`status`: the status of the reservation (`confirmed` or `pending`)
 	
 	```
 		class Booking(models.Model):
@@ -266,12 +262,11 @@ Pour ça vous pouvez suivre les étapes mentionnés dans le documentation offici
 	```
 
 	
-7. Configurer de PostgreSQL
-	Pour ce type de projet, il est généralement recommandé d'utiliser PostgreSQL
+6. Configuring PostgreSQL
+	For this type of project, we generally recommend using PostgreSQL
 	
-	
-	- Installez PostgreSQL sur votre machine locale
-	- Configurer votre base de données PostgreSQL dans `bus/settings.py`:
+	- Install PostgreSQL on your local machine
+	- Configure your PostgreSQL database in `bus/settings.py`:
 
 		```
 			...
@@ -290,20 +285,21 @@ Pour ça vous pouvez suivre les étapes mentionnés dans le documentation offici
 
    
 
-4. Faire les migrations
+7. Migration
 	python manage.py makemigrations
 	python manage.py migrate
 	
-5. Créer un dossier package `api` à l'interieur du dossier package `rides` comme ci `rides/api` 
-	**Configurer les URLs**
-		Dans `rides/api/urls.py`, configurez les routes pour les API:
-			Dans le module `urls.py` vous avez les endpoints suivantes:
+8. Create an `api` package folder inside the `rides` package folder as `rides/api`. 
+
+	**Configure URLs**
+		In `rides/api/urls.py`, configure the routes for the APIs:
+			In the `urls.py` module you have the following endpoints:
 			
-			`trips/`: Route pour lister et créer des trajets
-			`bookings/`: Route pour lister et créer des réservations
-			`trip/revenue/<int:trip_id>/`:  Route pour récupérer le revenu d'un trajet spécifique
-			`api_token_auth/` : Route pour créer un token après avoir été authentifier
-			`register/`: Route pour créer des utilisateurs pouvant ainsi créer un trajet en utilisant POSTMAN ou INSOMNIA
+			`trips/`: Route to list and create trips
+			`bookings/`: Route to list and create bookings
+			`trip/revenue/<int:trip_id>/`: Route to retrieve revenue for a specific trip
+			`api_token_auth/`: Route to create a token after authentication
+			`register/`: Route to create users who can then create a trip using POSTMAN or INSOMNIA
 			
 			```
 				...
@@ -316,7 +312,7 @@ Pour ça vous pouvez suivre les étapes mentionnés dans le documentation offici
 				...
 			```
 	
-		Ensuite, ajoutez l'url de l'API au projet principal dans `busticket/urls.py`:
+		Next, add the API url to the main project in `busticket/urls.py`:
 		
 		``` 	
 			from django.contrib import admin
@@ -328,17 +324,17 @@ Pour ça vous pouvez suivre les étapes mentionnés dans le documentation offici
 			]
 		```
 		
-	**Créer les Sérializers**
-		Dans `rides/api/serializers.py`, définissez les sérializers pour les trajets, les réservations et les utilisateurs:
-			Le module `serializers.py` contient les serializers pour les modèles `Trip`, `Booking`, `User`. Les serializers 
-			transforment les instances de modèles en formats de données tels que JSON pour les rendre utilisables
-			par les API, et vice versa.
+	**Create Serializers** 
+
+		In `rides/api/serializers.py`, define serializers for trips, bookings and users:
+			The `serializers.py` module contains serializers for the `Trip`, `Booking`, `User` models. Serializers 
+			transform model instances into data formats such as JSON to make them usable by the
+			APIs, and vice versa.
 			
 			**UserSerializer**
-			Le `UserSerializer` sérialise le modèle `User` et inclut seulement les champs: `username` et `password`
+			The `UserSerializer` serializes the `User` model and includes only the fields: `username` and `password`.
 			
-			La méthode `create` permet créer un nouvel objet utilisateur et extrait le nom d'utilisateur et le mot de passe des
-			données validées
+			The `create` method creates a new user object and extracts the username and password from the validated data
 			
 			```
 				class UserSerializer(serializers.ModelSerializer):
@@ -356,11 +352,9 @@ Pour ça vous pouvez suivre les étapes mentionnés dans le documentation offici
 			```
 			
 			**TripSerializer** 
-			Le `TripSerializer` sérialise le modèle `Trip` et inclut les champs suivants : id, origin, destination, 	
-			departure_datetime, et available_seats.
+			The TripSerializer serializes the Trip model and includes the following fields: id, origin, destination, departure_datetime, and available_seats.
 			
-			- La méthode validate empêche la création de trajets en double avec la même origine, destination et horaire de 
-			  départ.
+			- The validate method prevents the creation of duplicate journeys with the same origin, destination and departure time.
 			  
 			```
 				class TripSerializer(serializers.ModelSerializer):
@@ -380,14 +374,13 @@ Pour ça vous pouvez suivre les étapes mentionnés dans le documentation offici
 					return data
 			```
 			  
-			**BookingSerializer**
-			Le `BookingSerializer` sérialise le modèle `Booking` et inclut les champs suivants : `id`, `trip`, `trip_id`, 
-			`num_seats`, `status`, et `author`.  
+			**LookingSerializer**
+			The `BookingSerializer` serializes the `Booking` template and includes the following fields: `id`, `trip`, `trip_id`, `num_seats`, `status`, and `author`.  
 			
-			- `trip_id` utilise `PrimaryKeyRelatedField` pour permettre de référencer un `Trip` par son `ID`.
-			- La méthode `validate_num_seats` vérifie que le nombre de sièges réservés est supérieur à zéro.
-			- La méthode `validate` vérifie qu'il y a suffisamment de sièges disponibles dans le trajet choisi.
-			- La méthode `create` ajoute l'auteur de la réservation à partir du contexte de la requête.
+			- `trip_id` uses `PrimaryKeyRelatedField` to allow a `Trip` to be referenced by its `ID`.
+			- The `validate_num_seats` method checks that the number of seats reserved is greater than zero.
+			- The `validate` method checks that there are enough seats available on the chosen route.
+			- The `create` method adds the author of the reservation from the request context.
 			
 			```
 				
@@ -419,7 +412,7 @@ Pour ça vous pouvez suivre les étapes mentionnés dans le documentation offici
 					return data
 			```
 			
-			`BookingSerializer` gère l'utilisateur anonyme dans la création de réservations:
+			The `BookingSerializer` manages the anonymous user in the creation of bookings:
 			
 			```
 				class BookingSerializer(serializers.ModelSerializer):
@@ -432,14 +425,13 @@ Pour ça vous pouvez suivre les étapes mentionnés dans le documentation offici
 					...
 			```
 			
-	**Créer les Vues API**
-		Dans `rides/api/views.py`, définissez les vues pour lister et créer les trajets et les réservations:
-			Le module `views.py` contient les vues pour les modèles `User`, `Trip`, `Booking`, ainsi qu'une vue pour calculer 
-			le revenu des trajets.
+	**Creating API Views**
+
+		In `rides/api/views.py`, define the views for listing and creating journeys and bookings:
+			The `views.py` module contains views for the `User`, `Trip`, `Booking` models, as well as a view for calculating income from trips.
 			
 			**RegisterUserView**
-			`RegisterUserView` est une vue basée sur les classes génériques de Django REST Framework pour créer des 
-			 utilisateurs 
+			RegisterUserView is a view based on the generic Django REST Framework classes for creating users. 
 			
 			```
 				...
@@ -451,12 +443,12 @@ Pour ça vous pouvez suivre les étapes mentionnés dans le documentation offici
 			```
 			
 			**TripListCreateView**
-			`TripListCreateView` est une vue basée sur les classes génériques de Django REST Framework pour lister et créer des 
-			trajets.Vous pouvez accéder à cette vue sans vous authentifié mais pour créer un trajet vous devez vous     		
-			authentifiez afin d'obtenir un token qui sera utiliser pour créer un trajet d'ou utilisation de 
-			`authentication.TokenAuthentication`
+				TripListCreateView is a view based on the generic Django REST Framework classes for listing and creating trips. 
+				You can access this view without authenticating, but to create a trip you need to authenticate to get a token.     		
+				You can access this view without authenticating but to create a path you need to authenticate in order to obtain a token which will be used to create a path. 
+				`authentication.TokenAuthentication`
 			
-			- La méthode `get_queryset` est surchargée pour retourner uniquement les trajets avec des places disponibles.
+			- The `get_queryset` method is overloaded to return only journeys with available seats.
 			
 			```
 				class TripListCreateView(generics.ListCreateAPIView):
@@ -471,15 +463,12 @@ Pour ça vous pouvez suivre les étapes mentionnés dans le documentation offici
 			```
 			
 			**BookingListCreateView**
-			`BookingListCreateView` est une vue basée sur les classes génériques de Django REST Framework pour lister et créer 
-			des réservations. Elle utilise l'attribut `permission_classes` pour définir les permissions d'accès à cette vue.
+			The `BookingListCreateView` is a view based on the generic Django REST Framework classes for listing and creating 
+			reservations. It uses the `permission_classes` attribute to define access permissions to this view.
 			
-			- `permission_classes = [AllowAny]` signifie que tout le monde peut accéder à cette vue, qu'ils soient authentifiés 
-			   ou non.
-			- La méthode `get_queryset` est surchargée pour filtrer les réservations par `trip_id` si fourni dans les  	
-			paramètres de requête.
-			- La méthode `create` est surchargée pour gérer les transactions lors de la création de nouvelles réservations, 
-			assurant la cohérence et l'intégrité des données.
+			- `permission_classes = [AllowAny]` means that anyone can access this view, whether they are authenticated authenticated or not.
+			- The `get_queryset` method is overloaded to filter reservations by `trip_id` if supplied in the query parameters.
+			- The `create` method is overloaded to manage transactions when new reservations are created, ensuring data consistency and integrity.
 			
 			```
 				class BookingListCreateView(generics.ListCreateAPIView):
@@ -509,8 +498,8 @@ Pour ça vous pouvez suivre les étapes mentionnés dans le documentation offici
 
 			```
 			
-6. Implémenter la Fonction de Calcul de la Rentabilité
-	Dans rides/api/utils.py, créer la fonction calculer le revenu:
+9. Implement the Profitability Calculation Function
+	In rides/api/utils.py, create the calculate income function:
 	
 		```	from django.db.models import Sum
 			from rides.models import BooKing
@@ -523,11 +512,11 @@ Pour ça vous pouvez suivre les étapes mentionnés dans le documentation offici
 			    return total_seats * 1500 
 		    
 		 ```
-	Ensuite pour devez importer cette fonction dans `rides/api/views.py` afin de l'utiliser pour la fonction vue:
-	`TripRevenueView` permet de récupérer le revenu pour un trajet spécifique en s'authentifiant d'ou utilisation
+	Then you need to import this function into `rides/api/views.py` in order to use it for the view function:
+	`TripRevenueView` allows you to retrieve revenue for a specific trip by authenticating or using
 	`permission_classes = [permissions.IsAuthenticated]`.
 			
-	- la méthode `get` permet de récupérer et retourner le revenu pour le trajet spécifié en utilisant son id
+	- the `get` method is used to retrieve and return the revenue for the specified route using its id
 	
 	```
 		class TripRevenueView(APIView):
@@ -538,9 +527,9 @@ Pour ça vous pouvez suivre les étapes mentionnés dans le documentation offici
 			return Response({'trip_id': trip_id, 'revenue': revenue})
 	``` 
 	
-### Les Permissions
+### Permissions
 
-Concernant les permissions, il a été crée un fichier `permissions.py` contenant une fonction personnalisée permettant de restreindre l'accès à la vue `TripListCreateView` permettant d'afficher pour lister et créer des trajets:
+With regard to permissions, a `permissions.py` file has been created, containing a custom function for restricting access to the `TripListCreateView` view, which is used to display, list and create routes:
 
 ```
 	class IsAuthenticatedOrCreateOnly(BasePermission):
@@ -553,9 +542,9 @@ Concernant les permissions, il a été crée un fichier `permissions.py` contena
 		else:
 		    return False
 ```
-cette fonction permet uniquement aux utilisateurs authentifiés de créer des objets. Tout le monde (authentifié ou non) peut lire les objets.Les modifications et suppressions sont interdites pour tout le monde.
+This function only allows authenticated users to create objects. Anyone (authenticated or not) can read the objects, and modifications and deletions are prohibited for everyone.
 
-Ensuite il est importé dans le module views.py pour être appliqué à la vue `TripListCreateView`:
+It is then imported into the views.py module and applied to the `TripListCreateView`:
 
 ```
 	class TripListCreateView(generics.ListCreateAPIView):
@@ -568,10 +557,10 @@ Ensuite il est importé dans le module views.py pour être appliqué à la vue `
     
 
 
-Pour des raisons de sécurité de l'API il est plus adapté d'utiliser le Token Authentification ou JWT qui permet d'attribuer un token(en lui définissant une durée de vie) à l'utilsateur connecté afin de bénéficier d'une gestion centralisée des sessions et d'une expiration contrôlée des tokens, le Token Authentication pourrait être plus approprié. Cela permettra de gérer facilement les sessions utilisateur, d'implémenter des fonctionnalités comme la révocation de tokens si nécessaire, et de garantir une meilleure sécurité globale de l'application.
+For API security reasons, it would be more appropriate to use Token Authentication or JWT, which enables a token to be allocated (with a defined lifetime) to the connected user, in order to benefit from centralised session management and controlled token expiry. This will make it easier to manage user sessions, implement features such as token revocation if necessary, and guarantee better overall security for the application.
 
-**Ajouter une application token**
-Dans `busticket/settings.py`, ajouter `rest_framework.authtoken` dans `INSTALLED_APPS`:
+**Add a token application**
+In `busticket/settings.py`, add `rest_framework.authtoken` to `INSTALLED_APPS`:
 	
 	```
 		INSTALLED_APPS = [
@@ -580,7 +569,7 @@ Dans `busticket/settings.py`, ajouter `rest_framework.authtoken` dans `INSTALLED
 			...
 	        ]
 	```
-Ensuite appliquer les migrations en utilisant la commande `python3 manage.py migrate`, une fois les migrations faites il faut se rendre dans `api/urls.py` pour définir la route de notre token:
+Then apply the migrations using the `python3 manage.py migrate` command. Once the migrations are done, we need to go to `api/urls.py` to define the route for our token:
 
 ```
 	urlpatterns = [
@@ -590,7 +579,8 @@ Ensuite appliquer les migrations en utilisant la commande `python3 manage.py mig
 	]
 ```
 
-Vous pouvez utiliser maintenant le token sur la vue approprié (`TripListCreateView`) : 
+You can now use the token on the appropriate view (`TripListCreateView`) : 
+
 ```
 	class TripListCreateView(generics.ListCreateAPIView):
 		...
@@ -599,23 +589,27 @@ Vous pouvez utiliser maintenant le token sur la vue approprié (`TripListCreateV
 		...
 
 ```
-### Tester l'API
-**Les Endpoints**
+### Testing the API
+**Endpoints**
 
-**/api/bus/trips/ : créer et lister les trajets**
-**/api/bus/bookings/ : créer et lister les réservations**
-**/api/bus/trip/revenue/<int:trip_id>/: lister le revenu pour un trajet spécifique**
-**/api/bus/register/: créer des utilisateurs**
-**/api/bus/api_token_auth/ : obtenir le token après authentification de l'utilisateur**
+**/api/bus/trips/ : create and list journeys** 
+**/api/bus/bookings/ : create and list bookings**
+**/api/bus/bookings/ : create and list bookings** 
+**/api/bus/trip/revenue/<int:tripid> : create and list trips**
+**/api/bus/trip/revenue/<int:trip_id>/: list revenue for a specific trip** 
+**/api/bus/bookings/: create and list bookings**
+**/api/bus/register/: create users**
+**/api/bus/api_token_auth/: obtain token after user authentication**
 
    
-**Utilisation de Postman**
-Pour tester l'API de manière efficace, Vous devez utiliser un outil tiers comme Postman, Insomnia,ou tout autre client HTTP pour tester l'API avec des en-têtes d'authentification:
+**Using Postman**
+To test the API effectively, you need to use a third-party tool such as Postman, Insomnia or any other HTTP client to test the API with authentication headers:
 
-**Création d'un endpoint pour utilisateur**
+**Create an endpoint for a user**
 
 **endpoint: api/bus/register/**
-Pour rendre le processus plus fluide pour les tests, nous allons gérer la création d'utilisateurs directement via votre API, pour ça il faut ajouter dans le module `serializers.py` la classe `UserSerializer` pour serializer nos données:
+To make the process smoother for the tests, we're going to manage the creation of users directly via your API. To do this, we need to add the `UserSerializer` class to the `serializers.py` module to serialise our data:
+
 ```
 	class UserSerializer(serializers.ModelSerializer):
 	    class Meta:
@@ -630,7 +624,7 @@ Pour rendre le processus plus fluide pour les tests, nous allons gérer la créa
 		)
 		return user
 ``` 
-Ensuite rendez-vous dans le module `views.py` pour créer une vue `RegisterUserView` pour créer un utilisateur :
+Then go to the `views.py` module to create a `RegisterUserView` to create a user:
 
 ```
 	class RegisterUserView(generics.CreateAPIView):
@@ -638,13 +632,13 @@ Ensuite rendez-vous dans le module `views.py` pour créer une vue `RegisterUserV
 	    serializer_class = UserSerializer
 	    permission_classes = [permissions.AllowAny]
 ```
-**Configurer Postman pour créer un utilisateur**
-- ouvrez Postman et cliquez sur New -> Request.
-- donnez un nom à votre requête et sélectionnez ou créez une collection pour la sauvegarder
-- dans l'onglet Enter request URL, entrez `http://<your_domain>/api/bus/register/`
-- sélectionnez POST comme méthode HTTP
-- cliquez sur l'onglet Body. Sélectionnez raw et choisissez JSON dans le menu déroulant
-- collez le JSON suivant dans le corps de la requête :
+**Configure Postman to create a user**.
+- open Postman and click on New -> Request.
+- give your request a name and select or create a collection to save it in
+- in the Enter request URL tab, enter `http://<your_domain>/api/bus/register/`
+- select POST as the HTTP method
+- click on the Body tab. Select raw and choose JSON from the drop-down menu
+- paste the following JSON into the request body:
 
 ```
 	{
@@ -653,17 +647,17 @@ Ensuite rendez-vous dans le module `views.py` pour créer une vue `RegisterUserV
 	}
 
 ```
--cliquez sur Send.
+-click on Send.
 
-**Création du token**
+
 **endpoint: api/bus/api-token-auth/**
-Pour utiliser Postman pour obtenir un token en envoyant les informations d'identification (nom d'utilisateur et mot de passe) à l'endpoint `/api-token-auth/`, suivez ces étapes :
-	- Ouvrir Postman: Cliquez sur le bouton "New" ou "Create a request" pour créer une nouvelle requête
-	-  Sélectionnez `POST`, Entrez l'URL de votre endpoint d'authentification, par exemple `http://<your_domain>/api_token_auth/`
-	- Cliquez sur l'onglet `Body`, Sélectionnez `x-www-form-urlencoded`, Ajoutez deux clés : `username` et `password`, avec leurs  
-	  correspondantes, Cliquez sur le bouton `Send`.
-	- Si les informations d'identification sont correctes, vous recevrez une réponse contenant le token. La réponse ressemblera à 
-	ceci :
+To use Postman to obtain a token by sending credentials (username and password) to the `api-token-auth/` endpoint, follow these steps:
+	- Open Postman: Click on the ‘New’ or ‘Create a request’ button to create a new request.
+	- Select `POST`, Enter the URL of your authentication endpoint, for example `http://<your_domain>/api_token_auth/`
+	- Click on the `Body` tab, Select `x-www-form-urlencoded`, Add two keys: `username` and `password`, with their  
+	  Click on the `Send` button.
+	- If the credentials are correct, you will receive a response containing the token. The response will look like 
+	like this:
 	
 	```
 		{
@@ -671,21 +665,21 @@ Pour utiliser Postman pour obtenir un token en envoyant les informations d'ident
 		}
 	```
 	- 
-**Utilisation du token pour créer les requêtes**
--Créez une nouvelle requête :
-	* Ouvrez Postman.
-	* Cliquez sur `New` -> `Request`
--Configurez la requête :
-	* Sélectionnez POST comme méthode HTTP
-	* Entrez l'URL de votre endpoint, par exemple http://your_domain/api/bus/trips/
--Ajoutez l'en-tête d'authentification :
-	* Allez dans l'onglet `Headers`
-	* Ajoutez un nouvel en-tête avec le Key `Authorization` et la `Value` `Token your_token`
-5- Entrez les données de votre requête :
-	* Allez dans l'onglet `Body`
-	* Sélectionnez `raw`
-	* Assurez-vous que le type est `JSON`
-	* Entrez les données de votre requête en format JSON:
+**Using the token to create queries**
+-Create a new request:
+	* Open Postman.
+	* Click on `New` -> `Request`.
+-Configure the request:
+	* Select POST as the HTTP method
+	* Enter the URL of your endpoint, for example http://your_domain/api/bus/trips/
+-Add the authentication header:
+	* Go to the `Headers` tab
+	* Add a new header with the Key `Authorization` and the `Value` `Token your_token`.
+5- Enter your request data:
+	* Go to the `Body` tab
+	* Select `raw
+	* Make sure the type is `JSON`.
+	* Enter your request data in JSON format:
 	```
 		{
 		    "origin": "Accra",
@@ -696,60 +690,59 @@ Pour utiliser Postman pour obtenir un token en envoyant les informations d'ident
 
 	```
 
-### Tests Unitaires et Fonctionnels
-Pour les tests un dossier package `tests` a été créé contenant les modules `test_models.py` et `test_views.py` contenant des tests unitaires et fonctionnels pour vérifier la bonne fonctionnalité des modèles et des vues de l'application.
+### Unit and Functional Tests
+For the tests, a `tests` package folder has been created containing the `test_models.py` and `test_views.py` modules, which contain unit and functional tests to check the correct functionality of the application's models and views.
 
 **test_models.py**
-Le module `test_models.py` contient des tests unitaires pour les modèles `Trip` et `Booking`. 
-Voici un aperçu des tests réalisés :
+The `test_models.py` module contains unit tests for the `Trip` and `Booking` models. 
+Here is an overview of the tests performed:
 
 ## TripModelTests
-	- `test_create_trip`: Vérifie la création d'un trajet
-	- `test_trip_str`: Vérifie la représentation en chaîne de caractères d'un trajet
-	- `test_booking_str`: Vérifie la représentation en chaîne de caractères d'une réservation
-	- `test_create_booking`: Vérifie la création d'une réservation
-	- `test_book_seats_success`: Vérifie la réservation de sièges avec succès
-	- `test_book_seats_failure`: Vérifie l'échec de la réservation de sièges lorsque le nombre de sièges disponibles est insuffisant
-	- `test_unique_together_constraint`: Vérifie la contrainte d'unicité pour la création de trajets avec la même origine, destination 
-	   et horaire de départ
+	- `test_create_trip`: Checks the creation of a trip
+	- test_trip_str`: checks the string representation of a trip
+	- test_booking_str`: Checks the string representation of a booking
+	- test_create_booking`: checks the creation of a booking
+	- test_book_seats_success`: Checks for successful seat booking
+	- test_book_seats_failure: Checks for a failed seat reservation when there are not enough seats available.
+	- test_unique_together_constraint`: Checks the uniqueness constraint for creating journeys with the same origin, destination and departure time
 	   
 **test_views.py**
-Le module `test_views.py` contient des tests fonctionnels pour les vues `TripListCreateView`, `BookingListCreateView` et `TripRevenueView`. 
-Voici un aperçu des tests réalisés :
-	Liste des trajets disponibles
-	Vérification de la réponse HTTP attendue (200 OK).
-	Vérification du nombre de trajets retournés.
-	Création d'un trajet (nécessite une authentification)
-	Vérification de la réponse HTTP attendue pour la création (201 CREATED).
-	Vérification de l'augmentation du nombre de trajets en base de données.
-	Liste des réservations
-	Vérification de la réponse HTTP attendue (200 OK).
-	Vérification du nombre de réservations retournées (selon les données initiales).
-	Filtrage des réservations par trajet
-	Vérification de la réponse HTTP attendue (200 OK).
-	Vérification du nombre de réservations retournées pour un trajet spécifique.
-	Création d'une réservation
-	Test avec un utilisateur authentifié
-	Vérification de la réponse HTTP attendue pour la création (201 CREATED).
-	Vérification des informations de la réservation créée.
-	Vérification de la diminution des places disponibles du trajet concerné.
-	Test avec un utilisateur anonyme
-	Vérification de la réponse HTTP attendue pour la création (201 CREATED).
-	Vérification des informations de la réservation créée (statut "pending").
-	Vérification de la diminution des places disponibles du trajet concerné.
-	Test avec un nombre de places insuffisant
-	Vérification de la réponse HTTP d'erreur (400 Bad Request).
-	Test avec un nombre de places négatif
-	Vérification de la réponse HTTP d'erreur (400 Bad Request).
-	Test avec un nombre de places nul
-	Vérification de la réponse HTTP d'erreur (400 Bad Request).
-	Calcul du revenu d'un trajet (nécessite une authentification)
-	Vérification de la réponse HTTP attendue (200 OK).
-	Vérification de la présence d'un champ "revenue" dans la réponse.
+The `test_views.py` module contains functional tests for the `TripListCreateView`, `BookingListCreateView` and `TripRevenueView` views. 
+Here is an overview of the tests carried out:
+	List of available routes
+	Checking the expected HTTP response (200 OK).
+	Checking the number of trips returned.
+	Creating a route (requires authentication)
+	Checking the expected HTTP response for creation (201 CREATED).
+	Checking the increase in the number of trips in the database.
+	List of reservations
+	Checking the expected HTTP response (200 OK).
+	Verification of the number of returned reservations (based on initial data).
+	Filtering reservations by route
+	Checking the expected HTTP response (200 OK).
+	Checking the number of returned reservations for a specific trip.
+	Creating a reservation
+	Test with an authenticated user
+	Checking the expected HTTP response for creation (201 CREATED).
+	Checking the information of the created reservation.
+	Verification of the reduction in available places on the route concerned.
+	Test with an anonymous user
+	Checking the expected HTTP response for creation (201 CREATED).
+	Verification of the information of the reservation created (“pending” status).
+	Verification of the reduction in available places on the route concerned.
+	Test with insufficient number of places
+	Checking the HTTP error response (400 Bad Request).
+	Test with a negative number of places
+	Checking the HTTP error response (400 Bad Request).
+	Test with zero number of places
+	Checking the HTTP error response (400 Bad Request).
+	Calculating trip income (requires authentication)
+	Checking the expected HTTP response (200 OK).
+	Checking the presence of a "revenue" field in the response.
 
-## Utilisation de fixtures pour des données spécifiques
-Si vous avez besoin de données spécifiques pour vos tests, vous pouvez utiliser des fixtures Django. Les fixtures sont des fichiers JSON ou XML contenant des données de modèle prédéfinies.
-	**Créez un fichier `tests/fixtures/initial_data.json`**
+## Using fixtures for specific data
+If you need specific data for your tests, you can use Django fixtures. Fixtures are JSON or XML files containing predefined model data.
+**Create a `tests/fixtures/initial_data.json` file**
 	```
 		[
 			....
@@ -787,9 +780,9 @@ Si vous avez besoin de données spécifiques pour vos tests, vous pouvez utilise
 			...
 		]
 	```
-	Ensuite ces données sont chargés dans les tests `test_views.py` et `test_models.py`:
+	Then this data is loaded into the tests `test_views.py` and `test_models.py`:
 	
-	**Exemple d'utilisation dans le fichier test_views.py**
+	**Example of use in the test_views.py file**
 	``` 
 		...
 			class TripListCreateViewTests(APITestCase):
@@ -804,30 +797,30 @@ Si vous avez besoin de données spécifiques pour vos tests, vous pouvez utilise
 	```
 
 ## TripListCreateViewTests
-	- `test_list_trips_with_available_seats`: Vérifie la liste des trajets avec des sièges disponibles.
-	- `test_create_trip`: Vérifie la création d'un trajet.
+	- `test_list_trips_with_available_seats`: Checks the list of trips with available seats.
+	- `test_create_trip`: Checks the creation of a trip.
 	
 ## BookingListCreateViewTests
-	- `test_list_bookings`: Vérifie la liste des réservations
-	- `test_list_bookings_filtered_by_trip_id`: Vérifie la liste des réservations filtrées par `trip_id`
-	- `test_create_booking_authenticated_user`: Vérifie la création d'une réservation par un utilisateur authentifié
-	- `test_create_booking_anonymous_user`: Vérifie la création d'une réservation par un utilisateur anonyme
-	- `test_create_booking_insufficient_seats`: Vérifie l'échec de la création d'une réservation lorsque le nombre de sièges 
-	   disponibles est insuffisant
-	- `test_create_booking_negative_seats`: Vérifie l'échec de la création d'une réservation avec un nombre de sièges négatif
-	- `test_create_booking_zero_seats`: Vérifie l'échec de la création d'une réservation avec zéro siège
+	- `test_list_bookings`: Checks the list of reservations
+	- `test_list_bookings_filtered_by_trip_id`: Checks the list of reservations filtered by `trip_id`
+	- `test_create_booking_authenticated_user`: Checks the creation of a reservation by an authenticated user
+	- `test_create_booking_anonymous_user`: Checks the creation of a reservation by an anonymous user
+	- `test_create_booking_insufficient_seats`: Checks for failure to create a reservation when the number of seats 
+	   available is insufficient
+	- `test_create_booking_negative_seats`: Checks for failure to create a reservation with a negative number of seats
+	- `test_create_booking_zero_seats`: Checks for failure to create a reservation with zero seats
 
 	
 ## TripRevenueViewTests
-	- `test_get_trip_revenue`: Vérifie la récupération du revenu d'un trajet spécifique.
+	- `test_get_trip_revenue`: Checks the income recovery of a specific trip.
 	
 
 
-7. Tests des Modèles
-	**Création de trajets et de réservations :**
-		- Tester la création de trajets avec des attributs valides.
-		- Tester la création de réservations avec des attributs valides.
-		- Vérifier les relations entre les trajets et les réservations.
+10. Model Testing
+	**Creation of trips and reservations:**
+		- Test the creation of routes with valid attributes.
+		- Test the creation of reservations with valid attributes.
+		- Check the relationships between trips and reservations.
 		
 
 
